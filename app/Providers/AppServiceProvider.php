@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Scout\EngineManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        resolve(EngineManager::class)->extend('elasticsearch', function ($app) {
+            return app('Matchish\ScoutElasticSearch\Engines\ElasticSearchEngine'::class);
+        });
     }
 }
